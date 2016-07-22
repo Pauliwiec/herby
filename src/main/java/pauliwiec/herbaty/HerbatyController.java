@@ -20,41 +20,29 @@ public class HerbatyController {
 
 	@RequestMapping(value="/herbata", method=RequestMethod.GET)
 	public List<Herbata> getHerbaty(){
-//		List<Herbata> listaHerbat = new ArrayList<Herbata>();
-//		Herbata zielonaJasminowa = new Herbata("jasminowa", RodzajHerbaty.ZIELONA);
-//		zielonaJasminowa.setId(1);
-//		Herbata czarnaTropikalna = new Herbata("owocowa", RodzajHerbaty.CZARNA);
-//		czarnaTropikalna.setId(2);
-//		Herbata zielonaCytrynowa = new Herbata("cytrynowa", RodzajHerbaty.ZIELONA);
-//		zielonaCytrynowa.setId(3);
-//		Herbata biala = new Herbata("klasyczna", RodzajHerbaty.BIALA);
-//		biala.setId(4);
-//		
-//		listaHerbat.add(zielonaCytrynowa);
-//		listaHerbat.add(czarnaTropikalna);
-//		listaHerbat.add(biala);
-//		listaHerbat.add(zielonaJasminowa);
-		
+	    
+	    //every GET request adds objects to repository, so to do: cleanRepository() method
+	    herbatyRepository.save(new Herbata("jasminowa", RodzajHerbaty.ZIELONA));
+	    herbatyRepository.save(new Herbata("owocowa", RodzajHerbaty.CZARNA));
+	    herbatyRepository.save(new Herbata("cytrynowa", RodzajHerbaty.ZIELONA));
+	    
+	    //for localhost, with /herbata url GEt returns jsona (default format in Spring)
 		return herbatyRepository.findAll();
 	}
 	
 	@RequestMapping(value = "/herbata/{id}", method=RequestMethod.GET)
 	public Herbata getHerbata(@PathVariable("id") int id){
-//		Herbata herbata = new Herbata("imbirowa", RodzajHerbaty.CZARNA);
-//		herbata.setId(id);
-//		return herbata;
 		
 		try {
-			return herbatyRepository.find(id);
+			return herbatyRepository.find(id); //ex. http://localhost:8080/herbata/2 returns herbata with id=2
 		} catch (Exception e) {
-			return new Herbata();
+			return new Herbata(); //if no object found, returns empty object (not a perfect solution;))
 		}
 	}
 	
 	@RequestMapping(value="/herbata", method=RequestMethod.POST)
 	public Herbata addHerbata(@RequestBody Herbata herbata) {
-		//int id = 1 + (int)(Math.random() * 100);
-		//herbata.setId(id);
+
 		herbatyRepository.save(herbata);
 		
 		return herbata;
